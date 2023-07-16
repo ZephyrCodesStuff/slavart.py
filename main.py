@@ -4,6 +4,7 @@ import argparse
 import logging
 import coloredlogs
 import json
+import pathvalidate
 
 from httpx import Client
 from structs import *
@@ -49,6 +50,9 @@ def download(client: Client, id: int, path: Path) -> str:
             file_name = f"{track['track_number']} - {track['title']}.flac"
         else:
             path = path.joinpath("Uncategorized")
+
+        path = pathvalidate.sanitize_filepath(path)
+        file_name = pathvalidate.sanitize_filename(file_name)
 
         if not path.exists():
             path.mkdir(parents=True)

@@ -171,11 +171,12 @@ class Track(BaseItem):
         return cls(**data)
 
     def to_string(self) -> str:
-        return f"ID: {self.id:<10}\tArtist: {self.performer.name:<24}\tTitle: {self.title:<32}\tAlbum: {(self.album.title if self.album is not None else 'N/A'):<32}"
+        return f"ID: {self.id:<10} Sample rate: {f'{self.maximum_sampling_rate} KHz':<10} Artist: {self.performer.name:<24} Title: {self.title:<32} Album: {(self.album.title if self.album is not None else 'N/A'):<32}"
 
     def to_dict(self) -> dict:
         return {
             "id": self.id,
+            "sample_rate": self.maximum_sampling_rate,
             "artist": self.performer.name,
             "album": self.album.title if self.album is not None else None,
             "title": self.title,
