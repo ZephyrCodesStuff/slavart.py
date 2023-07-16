@@ -37,7 +37,7 @@ def download(client: Client, id: int, path: Path) -> str:
 
         try:
             with open("tracks.json", "r") as f:
-                tracks = json.loads(f.read())
+                tracks = json.loads(f.read()) if f.read() != "" else []
                 tracks = list(filter(lambda track: track['id'] == id, tracks))
 
                 if len(tracks) > 0:
@@ -88,8 +88,9 @@ def main():
             log.info(track.to_string())
 
         if len(results.tracks.items) > 0:
-            with open("tracks.json", "w") as f:
-                tracks = [track.to_dict() for track in results.tracks.items]
+            with open("tracks.json", "w+") as f:
+                tracks: List[dict] = json.loads(f.read()) if f.read() != "" else []
+                tracks.append([track.to_dict() for track in results.tracks.items if track.id not in [track['id'] for track in tracks]])
                 f.write(json.dumps(tracks, indent=4, sort_keys=True, separators=(', ', ': ')))
 
 if __name__ == "__main__":
