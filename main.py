@@ -89,12 +89,14 @@ def main():
             log.info(track.to_string())
 
         if len(results.tracks.items) > 0:
-            with open("tracks.json", "w+") as f:
+            with open("tracks.json", "r") as f:
                 data = f.read()
                 tracks: List[dict] = json.loads(data) if data != "" else []
                 cached_tracks = [track['id'] for track in tracks]
                 [tracks.append(track.to_dict()) for track in results.tracks.items if track.id not in cached_tracks]
-                f.write(json.dumps(tracks, indent=4, sort_keys=True, separators=(', ', ': ')))
+                
+                with open("tracks.json", "w") as f:
+                    f.write(json.dumps(tracks, indent=4, sort_keys=True, separators=(', ', ': ')))
 
 if __name__ == "__main__":
     main()
