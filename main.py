@@ -19,6 +19,7 @@ parser.add_argument('-q', '--query', metavar='query', type=str, help='Query to s
 parser.add_argument('-i', '--id', metavar='id', type=int, nargs="+", help='ID of the song')
 parser.add_argument('-o', '--output', metavar='output', type=str, default='', help='Output folder')
 parser.add_argument('-t', '--timeout', metavar='timeout', type=float, default='90.0', help='API response timeout')
+parser.add_argument('--insecure', action='store_true', help='Disable SSL verification', default=False)
 args = parser.parse_args()
 
 ENDPOINT = "https://slavart.gamesdrive.net/api"
@@ -68,7 +69,7 @@ def download(client: Client, id: int, path: Path) -> str:
 
 
 def main():
-    client = Client(timeout=args.timeout)
+    client = Client(timeout=args.timeout, verify=not args.insecure)
 
     if args.id is not None:
         path = Path(args.output)

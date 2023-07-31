@@ -136,6 +136,7 @@ class Album(BaseItem):
     artist: Optional[Artist] = None
     articles: Optional[List[Article]] = None
     artists: Optional[List[Artist]] = None
+    release_date_purchase: Optional[str] = None
 
 
     @classmethod
@@ -161,6 +162,7 @@ class Track(BaseItem):
     work: Optional[str]
     album: Optional[Album] = None
     composer: Optional[BaseArtist] = None
+    release_date_purchase: Optional[str] = None
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'Track':
